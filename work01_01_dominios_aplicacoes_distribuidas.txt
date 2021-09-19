@@ -1,0 +1,23 @@
+Finance and commerce:
+TradeMap, Status Invest, Amazon, eBay, PayPal, Wise, AliExpress, Bangood, Wish, Shopee, Mercado Livre, Méliuz, EBANX, KaBuM, Magazine Luiza, Americanas, Submarino, Best Buy.
+
+The information society:
+Facebook, Instagram, Orkut, LinkedIn, Twitter, Tumblr, Blog, WhatsApp, Telegram, Snapchat, TikTok, Kwai, Likee, Snaptube, WeChat, Bilibili, Reddit, Pelando, Tinder, Discord, Slack, Stack Overflow, GitHub, Wikipédia.
+
+Creative industries and entertainment:
+Behance, Dribbble, Unsplash, Pinterest, YouTube, Vimeo, Netflix, Prime Video, Disney+, Paramount+, Spotify, Deezer, Last.fm, SounfCloud, LetsSingit, YouCourse, Libreflix.
+
+Helthcare:
+Healthcare Management, Flo Period & Ovulation Tracker, HealthCare.gov, MDPI Healthcare, Healthcare Alliance, Our World in Data COVID-19, Worldometers COVID-19, COVID-19 Dashboard (CSSE), Covid Trends.
+
+Education:
+Coursera, Udemy, Udacity, LINUXtips, Rocketseat, Real Python, IBM Play, CodingEntrepreneurs, IGTI, Impulso Network, Kaggle, OneBitCode, Wes Bos, Vue Mastery, balta.io, UoPeople, Digital Innovation One, Jornada do Dev, Python Academy.
+
+Transport and logistics:
+Buser, Hurb, Localiza, Unidas, Rentcars, 99, Uber, Lady Driver, Google Maps, Google Earth, Waze, Moovit HERE WeGo, Gas Guru, Booking.com, OpenStreetMap, Maps.me.
+
+Science:
+Canaltech, Space today, Scientific American, Ciência Hoje, Revista Fapesp, Superinteressante, TecMundo, MDPI, Our World in Data.
+
+Environment management:
+AccuWeather, The Weather Channel, MetSul, Weather Underground, WeatherBug, CNN, BBC Weather.
