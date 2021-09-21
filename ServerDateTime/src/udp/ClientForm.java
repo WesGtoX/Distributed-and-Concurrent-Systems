@@ -1,5 +1,7 @@
 package udp;
 
+import static java.lang.Thread.sleep;
+
 /**
  *
  * @author Wesley
@@ -8,6 +10,7 @@ public class ClientForm extends javax.swing.JFrame {
 
     private Client cli;
     private String choice = "-1";
+    private boolean stop;
     
     public ClientForm() {
         initComponents();
@@ -15,10 +18,10 @@ public class ClientForm extends javax.swing.JFrame {
         this.setTitle("Cliente UDP");
         this.setResizable(false);
         
-        cli = new Client(txtHistoric);
+        cli = new Client(txtDateTime);
         cli.start();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,9 +37,9 @@ public class ClientForm extends javax.swing.JFrame {
         btnDate = new javax.swing.JButton();
         btnTime = new javax.swing.JButton();
         btnDateTime = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtHistoric = new javax.swing.JTextArea();
         btnClean = new javax.swing.JButton();
+        btnStopRealTime = new javax.swing.JButton();
+        txtDateTime = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,12 +78,6 @@ public class ClientForm extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        txtHistoric.setColumns(20);
-        txtHistoric.setRows(5);
-        jScrollPane1.setViewportView(txtHistoric);
-
         btnClean.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnClean.setText("LIMPAR");
         btnClean.addActionListener(new java.awt.event.ActionListener() {
@@ -89,30 +86,45 @@ public class ClientForm extends javax.swing.JFrame {
             }
         });
 
+        btnStopRealTime.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnStopRealTime.setText("PARAR TEMPO REAL");
+        btnStopRealTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopRealTimeActionPerformed(evt);
+            }
+        });
+
+        txtDateTime.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        txtDateTime.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblMessage)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnDate, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnTime, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnDateTime))
-                                .addComponent(txtMessage))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btnSend)
-                                .addComponent(btnClean, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblMessage)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnStopRealTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(btnDate, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnTime, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnDateTime))
+                                    .addComponent(txtMessage, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSend)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtDateTime))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,21 +132,22 @@ public class ClientForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblMessage)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnSend)
-                        .addGap(4, 4, 4)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(btnDate, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(btnDateTime, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(btnTime, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(btnClean, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                            .addComponent(btnDate, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                            .addComponent(btnDateTime, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                            .addComponent(btnTime, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnStopRealTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(txtDateTime, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -146,16 +159,34 @@ public class ClientForm extends javax.swing.JFrame {
         switch (message) {
             case "Qual a data de hoje?" -> {
                 choice = "date";
+                cli.send(choice);
             }
             case "Qual a hora?" -> {
                 choice = "time";
+                cli.send(choice);
             }
             case "Data e hora em tempo real" -> {
-                choice = "realtime";
+                Thread clock = new Thread() {
+                    public void run() {
+                        try {
+                            for (;;) {
+                                cli.send("realtime");
+                                if (stop) break;
+                                sleep(1000);
+                            }
+                        } catch (InterruptedException e) {
+                            System.out.println("Request interrupted");
+                        }
+                    }
+                };
+
+                clock.start();
+            }
+            default -> {
+                cli.send(choice);
             }
         }
-        
-        cli.send(choice);
+
         txtMessage.setText("");
         txtMessage.requestFocus();
         choice = "-1";
@@ -171,11 +202,19 @@ public class ClientForm extends javax.swing.JFrame {
 
     private void btnDateTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDateTimeActionPerformed
         txtMessage.setText("Data e hora em tempo real");
+        stop = false;
     }//GEN-LAST:event_btnDateTimeActionPerformed
 
     private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
-        txtHistoric.setText("");
+        txtDateTime.setText("");
     }//GEN-LAST:event_btnCleanActionPerformed
+
+    private void btnStopRealTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopRealTimeActionPerformed
+        stop = true;
+        txtMessage.setText("");
+        txtMessage.requestFocus();
+        choice = "-1";
+    }//GEN-LAST:event_btnStopRealTimeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,10 +271,10 @@ public class ClientForm extends javax.swing.JFrame {
     private javax.swing.JButton btnDate;
     private javax.swing.JButton btnDateTime;
     private javax.swing.JButton btnSend;
+    private javax.swing.JButton btnStopRealTime;
     private javax.swing.JButton btnTime;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMessage;
-    private javax.swing.JTextArea txtHistoric;
+    private javax.swing.JTextField txtDateTime;
     private javax.swing.JTextField txtMessage;
     // End of variables declaration//GEN-END:variables
 }

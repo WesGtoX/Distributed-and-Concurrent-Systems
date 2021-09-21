@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  *
@@ -17,9 +17,9 @@ public class Client extends Thread {
     private final int PORT_RECEIVE = 54321;
     private final int PORT_SEND = 12345;
     
-    private JTextArea txt;
+    private JTextField txt;
     
-    public Client(JTextArea txt) {
+    public Client(JTextField txt) {
         this.txt = txt;
 
         System.out.println("------------------------------");
@@ -75,12 +75,8 @@ public class Client extends Thread {
                     "Message: " + message + "\n"
                 );
                 
-                // Exibir a mensagem no Text Area
-                txt.append(
-                    "Server: " + packet.getAddress().getHostAddress() + 
-                    ":" + packet.getPort() + "\n"
-                );
-                txt.append("Message: " + message + "\n\n");
+                // Exibir a mensagem no Text Field
+                txt.setText(message);
             }
         } catch (IOException e) {
             System.err.println("ERRO: " + e.getMessage());

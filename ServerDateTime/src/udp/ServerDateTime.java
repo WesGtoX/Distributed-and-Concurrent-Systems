@@ -20,7 +20,6 @@ public class ServerDateTime extends Thread {
     
     enum DateTimeFormat { DATE, TIME, DATETIME, DEFAULT }
     
-    
     public ServerDateTime(){
         System.out.println("------------------------------");
         System.out.println(" Server running on port " + PORT_RECEIVE);
@@ -42,6 +41,24 @@ public class ServerDateTime extends Thread {
         return 3;
     }
     
+    public void clock() {
+        Thread clock = new Thread() {
+            public void run() {
+                try {
+                    for (;;) {
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                        LocalDateTime CurrDatetime = LocalDateTime.now();
+                        dtf.format(CurrDatetime);
+                        sleep(1000);
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        
+        clock.start();
+    }
+    
     public String datetimeFormat(String dtFormat) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(dtFormat);
         LocalDateTime CurrDatetime = LocalDateTime.now();
@@ -49,8 +66,6 @@ public class ServerDateTime extends Thread {
     }
     
     public String getResponse(String message) {
-        System.out.println(message);
-        
         int datetimeType = datetimeParser(message);
         
         DateTimeFormat whichView = DateTimeFormat.values()[datetimeType];
