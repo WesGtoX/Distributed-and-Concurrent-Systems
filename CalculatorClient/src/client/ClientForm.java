@@ -379,7 +379,7 @@ public class ClientForm extends javax.swing.JFrame {
     private void btnIqualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIqualActionPerformed
         double v1 = -1, v2 = -1, result;
         String operation = "", v1_s, v2_s, value_s = "";
-        String[] opArray = new String[] {"√", "log", "°F > °C", "C > °F"};
+        String[] opArray = new String[] {"√", "log", "°F > °C", "°C > °F"};
         
         try {
             // Registrar o Servico que sera acessado
@@ -396,7 +396,7 @@ public class ClientForm extends javax.swing.JFrame {
             try {
                 v1_s = txtValue1.getText();
                 if (!v1_s.isEmpty()) {
-                    v1 = Double.parseDouble(v1_s);
+                    v1 = Double.parseDouble(v1_s.replace(",", "."));
                 } else {
                     v1 = -1;
                     operation = "v1";
@@ -404,7 +404,7 @@ public class ClientForm extends javax.swing.JFrame {
 
                 v2_s = txtValue2.getText();
                 if (!v2_s.isEmpty()) {
-                    v2 = Double.parseDouble(v2_s);
+                    v2 = Double.parseDouble(v2_s.replace(",", "."));
                 } else if (Arrays.asList(opArray).contains(operation)) {
                     v2 = -1;
                 } else if (!"v1".equals(operation)) {
