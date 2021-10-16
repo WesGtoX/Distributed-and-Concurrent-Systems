@@ -14,7 +14,6 @@ public interface ICalculator extends Remote {
     public static final String SERVICE_HOST = "localhost";
     
     // Assinaturas dos metodos que fazem parte do Servico
-    // public abstract String getAge(LocalDate birthDate) throws RemoteException;;
     public abstract double getSum(double x, double y) throws RemoteException;
     public abstract double getSubtraction(double x, double y) throws RemoteException;
     public abstract double getMultiplication(double x, double y) throws RemoteException;
